@@ -222,6 +222,100 @@
 
 
   
+    <article id="post-06.多种数组去重性能对比" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/pages/e808fba1fa8fbab2">多种数组去重性能对比</a>
+    </h1>
+  
+
+        
+        <a href="/pages/e808fba1fa8fbab2" class="archive-article-date">
+  	<time datetime="2019-12-25T06:27:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="多种数组去重性能对比"><a href="#多种数组去重性能对比" class="headerlink" title="多种数组去重性能对比"></a>多种数组去重性能对比</h1><h2 id="测试模板"><a href="#测试模板" class="headerlink" title="测试模板"></a>测试模板</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建一个 1 ~ 10w 的数组，Array.from为ES6语法</span></span><br><span class="line"><span class="keyword">let</span> arr1 = <span class="title class_">Array</span>.<span class="title function_">from</span>(<span class="keyword">new</span> <span class="title class_">Array</span>(<span class="number">1000000</span>), <span class="function">(<span class="params">x, index</span>) =&gt;</span> &#123; </span><br><span class="line">  <span class="keyword">return</span> index</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> arr2 = <span class="title class_">Array</span>.<span class="title function_">from</span>(<span class="keyword">new</span> <span class="title class_">Array</span>(<span class="number">500000</span>), <span class="function">(<span class="params">x, index</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> index + index</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> start = <span class="keyword">new</span> <span class="title class_">Date</span>().<span class="title function_">getTime</span>()</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;开始数组去重&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 数组去重</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">distinct</span>(<span class="params">a, b</span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> arr = a.<span class="title function_">concat</span>(b);</span><br><span class="line">  <span class="comment">// 去重方法</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;去重后的长度&#x27;</span>, <span class="title function_">distinct</span>(arr1, arr2).<span class="property">length</span>)</span><br><span class="line"><span class="keyword">let</span> end = <span class="keyword">new</span> <span class="title class_">Date</span>().<span class="title function_">getTime</span>()</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;耗时&#x27;</span>, end - start + <span class="string">&#x27;ms&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="测试代码"><a href="#测试代码" class="headerlink" title="测试代码"></a>测试代码</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建一个 1 ~ 10w 的数组，Array.from为ES6语法</span></span><br><span class="line"><span class="keyword">let</span> arr1 = <span class="title class_">Array</span>.<span class="title function_">from</span>(<span class="keyword">new</span> <span class="title class_">Array</span>(<span class="number">1000000</span>), <span class="function">(<span class="params">x, index</span>) =&gt;</span> &#123; </span><br><span class="line">  <span class="keyword">return</span> index</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> arr2 = <span class="title class_">Array</span>.<span class="title function_">from</span>(<span class="keyword">new</span> <span class="title class_">Array</span>(<span class="number">500000</span>), <span class="function">(<span class="params">x, index</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> index + index</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> start = <span class="keyword">new</span> <span class="title class_">Date</span>().<span class="title function_">getTime</span>()</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;开始数组去重&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 数组去重</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">distinct</span>(<span class="params">a, b</span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> arr = a.<span class="title function_">concat</span>(b);</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 方法1，耗时约11675ms，约11s</span></span><br><span class="line">  <span class="comment">// return arr.filter((item, index) =&gt; &#123;</span></span><br><span class="line">  <span class="comment">//   return arr.indexOf(item) === index</span></span><br><span class="line">  <span class="comment">// &#125;)</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 方法2，耗时约22851ms，约22s，性能最差</span></span><br><span class="line">  <span class="comment">// for (let i = 0, len = arr.length; i &lt; len; i++) &#123;</span></span><br><span class="line">  <span class="comment">//   for (let j = i + 1; j &lt; len; j++) &#123;</span></span><br><span class="line">  <span class="comment">//     if (arr[i] == arr[j]) &#123;</span></span><br><span class="line">  <span class="comment">//       arr.splice(j, 1);</span></span><br><span class="line">  <span class="comment">//       // splice 会改变数组长度，所以要将数组长度 len 和下标 j 减一</span></span><br><span class="line">  <span class="comment">//       len--;</span></span><br><span class="line">  <span class="comment">//       j--;</span></span><br><span class="line">  <span class="comment">//     &#125;</span></span><br><span class="line">  <span class="comment">//   &#125;</span></span><br><span class="line">  <span class="comment">// &#125;</span></span><br><span class="line">  <span class="comment">// return arr</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">//方法3，耗时约12789ms，约12s，和方法1相当</span></span><br><span class="line">  <span class="comment">// let result = []</span></span><br><span class="line">  <span class="comment">// for (let i of arr) &#123;</span></span><br><span class="line">  <span class="comment">//   !result.includes(i) &amp;&amp; result.push(i)</span></span><br><span class="line">  <span class="comment">// &#125;</span></span><br><span class="line">  <span class="comment">// return result</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">//方法4，耗时约23ms，ES5标准中性能最高</span></span><br><span class="line">  <span class="comment">// arr = arr.sort()</span></span><br><span class="line">  <span class="comment">// let result = [arr[0]]</span></span><br><span class="line">  <span class="comment">// for (let i = 1, len = arr.length; i &lt; len; i++) &#123;</span></span><br><span class="line">  <span class="comment">//   arr[i] !== arr[i - 1] &amp;&amp; result.push(arr[i])</span></span><br><span class="line">  <span class="comment">// &#125;</span></span><br><span class="line">  <span class="comment">// return result</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 方法5，ES6的Set数据结构，耗时约20ms，性能高，代码简洁</span></span><br><span class="line">  <span class="comment">// return Array.from(new Set([...a, ...b]))</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 方法6，耗时约16ms，所有方法中 性能最高！ (千万级数据量下效率比方法5高4倍，for...of 为ES6语法)</span></span><br><span class="line">  <span class="keyword">let</span> result = []</span><br><span class="line">  <span class="keyword">let</span> obj = &#123;&#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i <span class="keyword">of</span> arr) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!obj[i]) &#123;</span><br><span class="line">      result.<span class="title function_">push</span>(i)</span><br><span class="line">      obj[i] = <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;去重后的长度&#x27;</span>, <span class="title function_">distinct</span>(arr1, arr2).<span class="property">length</span>)</span><br><span class="line"><span class="keyword">let</span> end = <span class="keyword">new</span> <span class="title class_">Date</span>().<span class="title function_">getTime</span>()</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;耗时&#x27;</span>, end - start + <span class="string">&#x27;ms&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>ES5标准中性能最高的数组去重方法为:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 耗时约23ms</span></span><br><span class="line">arr = arr.<span class="title function_">sort</span>()</span><br><span class="line"><span class="keyword">let</span> result = [arr[<span class="number">0</span>]]</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>, len = arr.<span class="property">length</span>; i &lt; len; i++) &#123;</span><br><span class="line">    arr[i] !== arr[i - <span class="number">1</span>] &amp;&amp; result.<span class="title function_">push</span>(arr[i])</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+
+<p>ES6标准中性能最高的数组去重方法为:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 耗时约16ms (千万级数据量下效率比使用Set数据结构方法高4倍，for...of 为ES6语法)</span></span><br><span class="line"><span class="keyword">let</span> result = []</span><br><span class="line"><span class="keyword">let</span> obj = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i <span class="keyword">of</span> arr) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!obj[i]) &#123;</span><br><span class="line">        result.<span class="title function_">push</span>(i)</span><br><span class="line">        obj[i] = <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+
+<p>代码既简洁性能又相对高的去重方法为：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 耗时约20ms，性能高，代码简洁</span></span><br><span class="line"><span class="keyword">return</span> <span class="title class_">Array</span>.<span class="title function_">from</span>(<span class="keyword">new</span> <span class="title class_">Set</span>([...a, ...b]))</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/前端//" class="article-tag-list-link color3">前端</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/前端/JavaScript文章//" class="article-tag-list-link color3">JavaScript文章</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/pages/e808fba1fa8fbab2">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
   
 
 
